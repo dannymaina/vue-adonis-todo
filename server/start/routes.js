@@ -23,4 +23,10 @@ Route.group(() => {
   Route.post('project', 'ProjectController.create').middleware('auth')
   Route.delete('project/:id', 'ProjectController.destroy').middleware('auth')
   Route.patch('project/:id', 'ProjectController.update').middleware('auth')
+  
+  Route.get('project/:id/task', 'TaskController.index').middleware('auth')
+  Route.post('project/:id/task', 'TaskController.create').middleware('auth')
+  Route.delete('task/:id', 'TaskController.destroy').middleware('auth')
+  Route.patch('task/:id', 'TaskController.update').middleware('auth')
+
 }).prefix('api')
