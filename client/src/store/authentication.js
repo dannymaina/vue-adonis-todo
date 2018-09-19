@@ -20,6 +20,10 @@ export default {
             }).catch(() => {
                 commit('setRegisterError', 'Error while registering user')
             })
+        },
+        logout({commit}){
+            commit('setToken', null)
+            router.push('/login')
         }
     },
     getters: {
