@@ -1,5 +1,6 @@
 <template>
   <v-container class="about">
+    <v-alert :value="ProjectError" type="error">{{ProjectError}}</v-alert>
     <v-layout>
       <v-flex xs4>
         <Projects></projects>
@@ -13,15 +14,17 @@
 
 <script>
 import Projects from '@/components/Projects.vue'
-import {mapGetters} from 'vuex'
+import {mapGetters, mapState} from 'vuex'
 import router from '../router'
 export default {
   components: {
     Projects
   },
   computed: {
+     ...mapState('projects', ['ProjectError']),
      ...mapGetters('authentication', ['isLoggedIn'])
   },
+
   mounted(){
     if(!this.isLoggedIn){
       router.push('/login')

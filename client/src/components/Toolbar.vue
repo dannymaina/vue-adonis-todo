@@ -2,7 +2,7 @@
     <v-toolbar color="green" dark fixed>
         <v-toolbar-title class="mr-4">VUE TODO</v-toolbar-title>
         <v-toolbar-items>
-          <v-btn v-if="isLoggedIn" flat><v-icon class="mr-1">playlist_add_check</v-icon>Projects</v-btn>
+          <v-btn v-if="isLoggedIn" to="/" flat><v-icon class="mr-1">playlist_add_check</v-icon>Projects</v-btn>
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">

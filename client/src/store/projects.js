@@ -1,15 +1,23 @@
 // import router from '../router'
+import Vue from 'vue'
 import HTTP from '../http'
 export default {
     namespaced: true,
     state: {
-        newProjectName: "jgsdjhgfjs",
-        setCreateProjectError: null,
+        newProjectName: null,
+        ProjectError: null,
         projects: []
     },
     actions: {
+        saveProject({commit}, project){
+            HTTP().patch(`project/${project.id}`, project)
+            .then(() => {
+                commit('setEditMode', project)
+            }).catch(() => {
+                commit('setProjectError', 'Error Editing project')
+            })
+        },
         createProject({commit, state}){
-            //commit('setNewProjectName', null)            
             HTTP().post('project', {
                 title: state.newProjectName,
             }).then(({data}) => {
@@ -18,7 +26,16 @@ export default {
             }).catch(() => {
                 commit('setCreateProjectError', 'Error creating new project')
             })
-        }
+        },
+        fetchProjects({commit}){  
+            commit('setProjectError', null)
+            HTTP().get('projects').then(({data}) => {
+                commit('setProjects', data)
+            }).catch(() => {
+                commit('setProjectError', 'Error fetching projects')
+            })
+        },
+
     },
     getters: {
         
@@ -30,8 +47,18 @@ export default {
         appendProject(state, project){
             state.projects.push(project)
         },
-        setCreateProjectError(state, error){
-            state.setCreateProjectError = error
+        setProjectError(state, error){
+            state.ProjectError = error
         },
+        setProjects(state, projects){
+            state.projects = projects
+        },
+        setProjectTitle(state, {project, title}){
+            project.title = title
+        },
+        setEditMode(state, project){
+            Vue.set(project, 'isEditMode', !project.isEditMode)
+        }
+
     }
 }
