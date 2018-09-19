@@ -17,6 +17,14 @@ export default {
                 commit('setProjectError', 'Error Editing project')
             })
         },
+        deleteProject({commit}, project){
+            HTTP().delete(`project/${project.id}`)
+            .then(() => {
+                commit('unsetDeletedProject', project)
+            }).catch(() => {
+                commit('setProjectError', 'Error deleting project')
+            })
+        },
         createProject({commit, state}){
             HTTP().post('project', {
                 title: state.newProjectName,
@@ -58,6 +66,9 @@ export default {
         },
         setEditMode(state, project){
             Vue.set(project, 'isEditMode', !project.isEditMode)
+        },
+        unsetDeletedProject(state, project){
+            state.projects.splice(state.projects.indexOf(project), 1)
         }
 
     }
