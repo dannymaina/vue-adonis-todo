@@ -6,6 +6,7 @@ export default {
     state: {
         newProjectName: null,
         ProjectError: null,
+        currentProject: null,
         projects: []
     },
     actions: {
@@ -69,6 +70,9 @@ export default {
         },
         unsetDeletedProject(state, project){
             state.projects.splice(state.projects.indexOf(project), 1)
+        },
+        setCurrentProject(state, project){
+            state.currentProject = project
         }
 
     }

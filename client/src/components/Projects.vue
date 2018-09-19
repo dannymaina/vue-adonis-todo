@@ -1,7 +1,7 @@
 <template>
      <panel title="Projects">
         <div v-for="project in projects" :key="project.id" class="project mt-2">
-            <editableRecord @onDelete="deleteProject(project)" @onSave="saveProject(project)" @onEdit="setEditMode(project)" :record="project" @onInput="setProjectTitle({project, title:$event})" :isEditMode="project.isEditMode" :title="project.title"/>
+            <editableRecord class="editable-record" @onClick="setProject(project)" @onDelete="deleteProject(project)" @onSave="saveProject(project)" @onEdit="setEditMode(project)" :record="project" @onInput="setProjectTitle({project, title:$event})" :isEditMode="project.isEditMode" :title="project.title"/>
         </div>
         <CreateRecord placeholder="Project Title..." @onInput="setNewProjectName" @create="createProject" :value="newProjectName"/>
     </panel>
@@ -17,8 +17,13 @@ export default {
     },
 
     methods: {
-        ...mapMutations('projects',['setNewProjectName', 'setEditMode', 'setProjectTitle']),
-        ...mapActions('projects', ['createProject','fetchProjects', 'saveProject', 'deleteProject'])
+        ...mapMutations('projects',['setNewProjectName', 'setEditMode', 'setProjectTitle', 'setCurrentProject']),
+        ...mapActions('projects', ['createProject','fetchProjects', 'saveProject', 'deleteProject']),
+        ...mapActions('tasks', ['fetchTasks']),
+        setProject(project){
+            this.setCurrentProject(project)
+            this.fetchTasks(project)
+        },
     },
 
     mounted(){
@@ -42,5 +47,9 @@ export default {
 
 .icon:hover {
     color: green;
+}
+
+.editable-record {
+    cursor: pointer;
 }
 </style>

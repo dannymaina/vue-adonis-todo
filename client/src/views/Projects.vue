@@ -5,8 +5,8 @@
       <v-flex xs4>
         <Projects></projects>
       </v-flex>
-      <v-flex xs8 class="pl-2">
-        <panel title="Tasks"><h1>test</h1></panel>
+      <v-flex xs8 class="pl-2" v-if="currentProject">
+        <Tasks :currentProject="currentProject"/>
       </v-flex>
     </v-layout>
   </v-container>
@@ -14,14 +14,16 @@
 
 <script>
 import Projects from '@/components/Projects.vue'
+import Tasks from '@/components/Tasks.vue'
 import {mapGetters, mapState} from 'vuex'
 import router from '../router'
 export default {
   components: {
-    Projects
+    Projects,
+    Tasks
   },
   computed: {
-     ...mapState('projects', ['ProjectError']),
+     ...mapState('projects', ['ProjectError', 'currentProject']),
      ...mapGetters('authentication', ['isLoggedIn'])
   },
 
