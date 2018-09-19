@@ -3,9 +3,12 @@ import HTTP from '../http'
 export default {
     namespaced: true,
     state: {
-        registerEmail: "hello",
-        registerPassword: "world",
+        registerEmail: "dannymaina@gmail.com",
+        registerPassword: "12345",
         registerError: null,
+        loginEmail: "dannymaina@gmail.com",
+        loginPassword: "12345",
+        loginError: null,
         token: null
     },
     actions: {
@@ -19,6 +22,18 @@ export default {
                 router.push('/')
             }).catch(() => {
                 commit('setRegisterError', 'Error while registering user')
+            })
+        },
+        login({commit, state}){
+            commit('setLoginError', null)            
+            HTTP().post('auth/login', {
+                email: state.loginEmail,
+                password: state.loginPassword,
+            }).then(({data}) => {
+                commit('setToken', data.token)
+                router.push('/')
+            }).catch(() => {
+                commit('setLoginError', 'Invalid Email or Password')
             })
         },
         logout({commit}){
@@ -43,6 +58,15 @@ export default {
         },
         setRegisterPassword(state, password){
             state.registerPassword = password
+        },
+        setLoginError(state, error){
+            state.loginError = error
+        },
+        setLoginEmail(state, email){
+            state.loginEmail = email
+        },
+        setLoginPassword(state, password){
+            state.loginPassword = password
         },
     }
 }
