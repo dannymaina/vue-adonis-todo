@@ -1,36 +1,16 @@
 <template>
      <panel title="Projects">
         <div v-for="project in projects" :key="project.id" class="project mt-2">
-
-        <v-layout row wrap>
-            <v-flex xs9 class="text-xs-left">
-                <span v-if="!project.isEditMode">
-                {{project.title}}
-                </span>
-                <v-text-field autofocus @keyup.enter="saveProject(project)" @input="setProjectTitle({project, title:$event})" v-if="project.isEditMode" :value="project.title"></v-text-field>
-            </v-flex>
-            <v-flex xs3>
-                <v-icon @click="setEditMode(project)" v-if="!project.isEditMode">edit</v-icon>
-                <v-icon @click="saveProject(project)" v-if="project.isEditMode">check</v-icon>
-                <v-icon @click="deleteProject(project)">delete</v-icon>
-            </v-flex>
-            
-        </v-layout>
+            <editableRecord @onDelete="deleteProject(project)" @onSave="saveProject(project)" @onEdit="setEditMode(project)" :record="project" @onInput="setProjectTitle({project, title:$event})" :isEditMode="project.isEditMode" :title="project.title"/>
         </div>
-        <v-layout row wrap class="mt-4">
-            <v-flex xs8>
-                <v-text-field @keyup.enter="createProject" :value="newProjectName" @input="setNewProjectName" placeholder="Project name..."></v-text-field>
-            </v-flex>
-            <v-flex xs4>
-                <v-btn @click="createProject" color="green" dark class="mt-2"><v-icon class="mr-1">add_circle</v-icon>Create</v-btn>
-            </v-flex>
-        </v-layout>
+        <CreateRecord placeholder="Project Title..." @onInput="setNewProjectName" @create="createProject" :value="newProjectName"/>
     </panel>
 </template>
 
 <script>
 import {mapState, mapMutations, mapActions} from 'vuex'
-
+import CreateRecord from '@/components/CreateRecord.vue'
+import EditableRecord from '@/components/EditableRecord.vue'
 export default {
     computed: {
         ...mapState('projects',['newProjectName', 'projects'])
@@ -43,6 +23,10 @@ export default {
 
     mounted(){
         this.fetchProjects()
+    },
+
+    components: {
+        CreateRecord, EditableRecord
     }
 }
 </script>
