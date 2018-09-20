@@ -3,10 +3,10 @@ import HTTP from '../http'
 export default {
     namespaced: true,
     state: {
-        registerEmail: "dannymaina@gmail.com",
+        registerEmail: "test@test.com",
         registerPassword: "12345",
         registerError: null,
-        loginEmail: "dannymaina@gmail.com",
+        loginEmail: "test@test.com",
         loginPassword: "12345",
         loginError: null,
         token: null
