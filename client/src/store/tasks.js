@@ -1,4 +1,3 @@
-// import router from '../router'
 import Vue from 'vue'
 import HTTP from '../http'
 export default {
@@ -43,7 +42,14 @@ export default {
                 commit('setTaskError', 'Error Editing task')
             })
         },
-
+        toggleCompleted({commit}, task){
+            commit('toggleCompleted', task)
+            HTTP().patch(`task/${task.id}`, task)
+            .then(() => {
+            }).catch(() => {
+                commit('setTaskError', 'Error Editing task')
+            })
+        },
     },
     getters: {
         
@@ -60,6 +66,9 @@ export default {
         },
         setTasks(state, tasks){
             state.tasks = tasks
+        },
+        toggleCompleted(state, task){
+            task.completed = !task.completed
         },
         unsetDeletedTask(state, task){
             state.tasks.splice(state.tasks.indexOf(task), 1)

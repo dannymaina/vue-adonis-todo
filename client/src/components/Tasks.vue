@@ -1,7 +1,9 @@
 <template>
      <panel title="Tasks">
         <div v-for="task in tasks" :key="task.id" class="task mt-2">
-            <EditableRecord @onInput="setTaskDescription({task, description:$event})" @onSave="saveTask(task)" @onEdit="setEditMode(task)" @onDelete="deleteTask(task)" :record="task" :isEditMode="task.isEditMode" :title="task.description"/>
+            <EditableRecord @onInput="setTaskDescription({task, description:$event})" @onSave="saveTask(task)" @onEdit="setEditMode(task)" @onDelete="deleteTask(task)" :record="task" :isEditMode="task.isEditMode" :title="task.description">
+                <v-icon class="icon" @click="toggleCompleted(task)">{{task.completed ? 'radio_button_checked' : 'radio_button_unchecked'}}</v-icon>
+            </EditableRecord>
         </div>
         <CreateRecord placeholder="Task Description..." @onInput="setNewTaskDescription" @create="createTask(currentProject)" :value="newTaskDescription"/>
     </panel>
@@ -19,7 +21,7 @@ export default {
 
     methods: {
         ...mapMutations('tasks',['setNewTaskDescription', 'setEditMode', 'setTaskDescription']),
-        ...mapActions('tasks', ['createTask','fetchTasks', 'deleteTask', 'saveTask']),
+        ...mapActions('tasks', ['createTask','fetchTasks', 'deleteTask', 'saveTask', 'toggleCompleted']),
     },
 
     mounted(){
